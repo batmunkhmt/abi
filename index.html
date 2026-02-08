@@ -3,15 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Be My Valentine?</title>
+    <title>Be My Valentine? ✨</title>
     <style>
         :root {
             --pink-light: #fff0f3;
+            --pink-medium: #ffb3c1;
             --pink-dark: #c9184a;
+            --wine: #590d22;
         }
 
         body {
             background-color: var(--pink-light);
+            background-image: radial-gradient(circle, #fff 10%, transparent 10%), radial-gradient(circle, #fff 10%, transparent 10%);
+            background-size: 50px 50px;
+            background-position: 0 0, 25px 25px;
             margin: 0;
             padding: 0;
             display: flex;
@@ -24,26 +29,34 @@
             position: relative;
         }
 
-        /* Fixed Question at the Top */
+        /* Fixed Question */
         #question {
             position: fixed;
-            top: 10%;
+            top: 12%;
             left: 50%;
             transform: translateX(-50%);
             color: var(--pink-dark);
-            font-size: 1.8rem;
+            font-size: 2rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.05);
             text-align: center;
             width: 90%;
-            z-index: 20;
+            z-index: 100;
             margin: 0;
             transition: all 0.3s ease;
         }
 
-        .flower {
+        /* Floating Decorations */
+        .decoration {
             position: absolute;
             font-size: 1.5rem;
             z-index: 1;
-            opacity: 0.7;
+            user-select: none;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
         }
 
         .main-container {
@@ -61,35 +74,35 @@
             flex-direction: column; 
             align-items: center;
             justify-content: center;
-            gap: 30px; /* Space between buttons */
+            gap: 25px;
             width: 100%;
             position: relative;
         }
 
         button {
-            padding: 15px 40px;
-            font-size: 1.2rem;
+            padding: 18px 45px;
+            font-size: 1.3rem;
+            font-weight: bold;
             border-radius: 50px;
             border: none;
             cursor: pointer;
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.3s;
             touch-action: manipulation;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
         }
 
         #yesBtn {
             background-color: #ff4d6d;
             color: white;
-            box-shadow: 0 4px 15px rgba(255, 77, 109, 0.3);
-            z-index: 100;
-            /* Ensures scaling happens from the center */
-            transform-origin: center; 
+            z-index: 500;
+            transform-origin: center;
         }
 
         #noBtn {
             background-color: white;
             color: var(--pink-dark);
-            border: 2px solid #ffb3c1;
-            z-index: 50;
+            border: 2px solid var(--pink-medium);
+            z-index: 200;
         }
 
         #celebration {
@@ -99,28 +112,47 @@
             justify-content: center;
             color: var(--pink-dark);
             text-align: center;
+            background: white;
+            position: fixed;
+            inset: 0;
+            z-index: 2000;
+        }
+
+        .celebration-emojis {
+            font-size: 5rem;
+            margin-top: 20px;
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
         }
     </style>
 </head>
 <body>
 
-    <div class="flower" style="top: 5%; left: 10%;">🌷</div>
-    <div class="flower" style="top: 5%; right: 10%;">🌹</div>
-    <div class="flower" style="bottom: 5%; left: 10%;">🤍</div>
-    <div class="flower" style="bottom: 5%; right: 10%;">🌷</div>
+    <div class="decoration" style="top: 10%; left: 5%; animation-delay: 0s;">🌸</div>
+    <div class="decoration" style="top: 15%; right: 8%; animation-delay: 1s;">💖</div>
+    <div class="decoration" style="bottom: 15%; left: 10%; animation-delay: 2s;">🎀</div>
+    <div class="decoration" style="bottom: 10%; right: 5%; animation-delay: 0.5s;">🌹</div>
+    <div class="decoration" style="top: 40%; left: 85%; animation-delay: 1.5s;">✨</div>
+    <div class="decoration" style="top: 70%; left: 5%; animation-delay: 2.5s;">🍭</div>
+    <div class="decoration" style="top: 50%; left: 15%; animation-delay: 3s;">🧸</div>
 
-    <h1 id="question">Will you be my Valentine?</h1>
+    <h1 id="question">Will you be my Valentine? 💌</h1>
 
     <div class="main-container" id="game-ui">
         <div class="btn-wrapper">
-            <button id="yesBtn">Yes</button>
+            <button id="yesBtn">Yes! ✨</button>
             <button id="noBtn">No</button>
         </div>
     </div>
 
     <div id="celebration">
-        <h1>Yay! I knew you were gonna say yes.🫶</h1>
-        <div style="font-size: 3rem;">🌹🌷🤍</div>
+        <h1 style="font-size: 2.5rem;">Yay! ❤️</h1>
+        <div class="celebration-emojis">💐🥂💍💝</div>
+        <p style="font-size: 1.2rem; color: #ff4d6d;">I knew you'd say yes!</p>
     </div>
 
     <script>
@@ -134,14 +166,14 @@
         let noScale = 1;
 
         const messages = [
-            "Why not? 🥺",
-            "Are you sure?",
-            "Think again! 🌹",
-            "But the lilies!",
-            "I'll be sad... 🤍",
-            "Click the red one!",
-            "Pretty please?",
-            "Last chance! ✨"
+            "Are you sure? 🥺",
+            "Pwetty please? 👉👈",
+            "I'll give you chocolate! 🍫",
+            "Don't do this to me... 💔",
+            "Look at the big button! ✨",
+            "Is that your final answer? 🧐",
+            "I'm gonna cry... 😭",
+            "Just click the pink one! 💖"
         ];
         let msgIndex = 0;
 
@@ -149,29 +181,27 @@
             e.preventDefault();
 
             // 1. Grow Yes Button
-            yesScale += 0.5;
+            yesScale += 0.6; 
             yesBtn.style.transform = `scale(${yesScale})`;
 
-            // 2. Shrink No Button slightly
-            noScale -= 0.05;
-            if (noScale < 0.5) noScale = 0.5;
+            // 2. Shrink No Button
+            noScale -= 0.1;
+            if (noScale < 0.4) noScale = 0.4;
             noBtn.style.transform = `scale(${noScale})`;
 
-            // 3. Cycle Messages
+            // 3. Update Question
             question.innerText = messages[msgIndex];
             msgIndex = (msgIndex + 1) % messages.length;
 
-            // 4. Full Screen Overlay logic
+            // 4. Full Screen Takeover
             if (yesScale > 15) {
                 yesBtn.style.position = "fixed";
-                yesBtn.style.top = "0";
-                yesBtn.style.left = "0";
+                yesBtn.style.inset = "0";
                 yesBtn.style.width = "100vw";
                 yesBtn.style.height = "100vh";
                 yesBtn.style.borderRadius = "0";
                 yesBtn.style.zIndex = "1000";
                 yesBtn.innerText = "YES! ❤️";
-                // Hide elements that might peek through
                 noBtn.style.opacity = "0"; 
                 question.style.opacity = "0";
             }
